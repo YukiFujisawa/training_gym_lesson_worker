@@ -1,6 +1,6 @@
-<h1>New Shops</h1>
+<h1>Edit Shops</h1>
 
-<%= form_with scope: :shop, url: shops_path, local: true do |form| %>
+<%= form_with(model: @shop, local: true) do |form| %>
   <% if @shop.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@shop.errors.count, "error") %> prohibited
@@ -26,3 +26,5 @@
     <%= form.submit %>
   </p>
 <% end %>
+
+<%= link_to 'Back', shops_path %>
