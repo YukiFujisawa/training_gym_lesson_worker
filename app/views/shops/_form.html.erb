@@ -1,0 +1,9 @@
+<%= form_with(model: [ @company, @company.shops.build ], local: true) do |form| %>
+  <p>
+    <%= form.label :shop_name %><br>
+    <%= form.text_field :shop_name %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>

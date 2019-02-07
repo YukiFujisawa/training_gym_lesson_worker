@@ -26,18 +26,22 @@ class ShopsController < ApplicationController
   end
 
   def create
-    @shop = Shop.new(shop_params)
+    @operating_company = OperatingCompany.find(params[:operating_company_id])
+    @operating_company.shops.create(shop_params)
+    redirect_to @operating_company
+  end
 
-    if @shop.save
-      redirect_to @shop
-    else
-      render 'new'
-    end
+  def destroy
+    @operating_company = OperatingCompany.find(params[:operating_company_id])
+    @shop = @operating_company.shops.find(params[:id])
+    @shop = Shop.find(params[:id])
+    @shop.destroy
+    redirect_to operating_company_path(@operating_company)
   end
 
   private
 
   def shop_params
-    params.require(:shop).permit(:operating_company_id, :shop_name)
+    params.require(:shop).permit(:shop_name)
   end
 end
