@@ -1,5 +1,4 @@
 require 'page-object'
-require 'pry-byebug'
 
 class JexerPage
   include PageObject
