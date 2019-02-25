@@ -5,6 +5,7 @@ require 'jexer/jexer_shops'
 RSpec.describe JexerPage, type: :model  do
   let!(:driver) { TrainingGymLessonWorker.get_driver }
   let(:page_object) { JexerPage.new(driver) }
+  let(:shop_list) { JexerPage.new(driver) }
 
   describe '#shop_select' do
     JexerShops::LIST.each do |shop|

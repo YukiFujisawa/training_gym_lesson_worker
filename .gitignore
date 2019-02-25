@@ -6,7 +6,7 @@
 /pkg/
 /spec/reports/
 /tmp/
-/docker/mysql/data/
+/docker/postgres/data/
 
 # rspec failure tracking
 .rspec_status
