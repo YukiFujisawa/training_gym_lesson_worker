@@ -17,7 +17,7 @@ class JexerPage
   select_list(:go_shop_page, name: 'shop')
 
   def go_shop_page(shop)
-    navigate.to(JexerPage::BASE_URL + "?shop=#{shop.shop_id}")
+    navigate.to(JexerPage::BASE_URL + "?shop=#{shop.shop_code}")
   end
 
   def all_lessons(shop)

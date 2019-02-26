@@ -6,7 +6,7 @@ OPERATING_COMPANIES = [
 JEXCER_SHOPS = [
   { shop_code: '32', shop_name: '大塚' },
   { shop_code: '25', shop_name: '新宿' },
-  { shop_code: '5', shop_name: '新宿' },
+  { shop_code: '5', shop_name: '赤羽' },
   { shop_code: '9', shop_name: 'メトロポリタン池袋' },
   { shop_code: '3', shop_name: '四谷' },
   { shop_code: '8', shop_name: '上野' },
@@ -24,8 +24,7 @@ KONAMI_SHOPS = [
 ].freeze
 
 def create_operating_companies
-  companies = []
-  OPERATING_COMPANIES.each do |company|
+  OPERATING_COMPANIES.each_with_object([]) do |company, companies|
     record = OperatingCompany.find_by(operating_company_name: company[:operating_company_name])
     if record
       record.attributes = company
@@ -35,7 +34,6 @@ def create_operating_companies
     end
     companies << record
   end
-  companies
 end
 
 def create_shops(operating_companies)

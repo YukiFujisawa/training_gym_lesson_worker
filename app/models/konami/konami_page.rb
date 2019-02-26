@@ -17,7 +17,7 @@ class KonamiPage
   select_list(:go_shop_page, name: 'shop')
 
   def go_shop_page(shop)
-    navigate.to(KonamiPage::BASE_URL + "?Facility_cd=#{shop.shop_id}")
+    navigate.to(KonamiPage::BASE_URL + "?Facility_cd=#{shop.shop_code}")
   end
 
   def all_lessons(shop)
