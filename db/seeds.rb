@@ -1,30 +1,9 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
-companies = []
-[
+OPERATING_COMPANIES = [
   { operating_company_name: 'ジェクサー', home_page_url: 'http://www.jexer.jp/' },
   { operating_company_name: 'コナミ', home_page_url: 'https://www.konami.com/sportsclub/' }
-].each do |company|
-  record = OperatingCompany.find_by(operating_company_name: company[:operating_company_name])
-  if record
-    record.attributes = company
-    record.save!
-  else
-    record = OperatingCompany.create!(company)
-  end
-  companies << record
-end
+].freeze
 
-jexcer = companies[0]
-konami = companies[1]
-
-[
+JEXCER_SHOPS = [
   { shop_code: '32', shop_name: '大塚' },
   { shop_code: '25', shop_name: '新宿' },
   { shop_code: '5', shop_name: '新宿' },
@@ -38,17 +17,57 @@ konami = companies[1]
   { shop_code: '17', shop_name: '東神奈川' },
   { shop_code: '37', shop_name: '新川崎' },
   { shop_code: '45', shop_name: '浦和' }
-].each do |shop|
-  shop[:operating_company_id] = jexcer.id
-  unless Shop.exists?(shop_code: shop[:shop_code])
-    Shop.create!(shop)
+].freeze
+
+KONAMI_SHOPS = [
+  { shop_code: '004486', shop_name: '池袋' },
+].freeze
+
+def create_operating_companies
+  companies = []
+  OPERATING_COMPANIES.each do |company|
+    record = OperatingCompany.find_by(operating_company_name: company[:operating_company_name])
+    if record
+      record.attributes = company
+      record.save!
+    else
+      record = OperatingCompany.create!(company)
+    end
+    companies << record
   end
-  record = Shop.find_by(shop_code: shop[:shop_code])
-  if record
-    record.attributes = shop
-    record.save!
-  else
-    Shop.create!(shop)
+  companies
+end
+
+def create_shops(operating_companies)
+  create_jexcer_shops(operating_companies[0].id)
+  create_konami_shops(operating_companies[1].id)
+end
+
+def create_jexcer_shops(operating_company_id)
+  JEXCER_SHOPS.each do |shop|
+    shop[:operating_company_id] = operating_company_id
+    record = Shop.find_by(shop_code: shop[:shop_code])
+    if record
+      record.attributes = shop
+      record.save!
+    else
+      Shop.create!(shop)
+    end
   end
 end
 
+def create_konami_shops(operating_company_id)
+  KONAMI_SHOPS.each do |shop|
+    shop[:operating_company_id] = operating_company_id
+    record = Shop.find_by(shop_code: shop[:shop_code])
+    if record
+      record.attributes = shop
+      record.save!
+    else
+      Shop.create!(shop)
+    end
+  end
+end
+
+companies = create_operating_companies
+create_shops(companies)
